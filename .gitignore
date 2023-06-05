@@ -23,5 +23,8 @@ hash.txt
 contracts.txt
 artifacts/
 
+#test node-module
+/test/node_modules
+
 # code coverage
 tarpaulin-report.*
