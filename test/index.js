@@ -36,7 +36,7 @@ const successColor = chalk.green
 const infoColor = chalk.gray
 
 const args = process.argv.slice(2)
-assert(args.length == 2, "missing 'from_address' and 'funds'")
+assert(args.length == 4, "must be 'from_address', 'funds', 'account_number' and 'sequence'")
 
 export async function connectWallet() {
     // Create a wallet
@@ -65,7 +65,8 @@ let nextSignData = {
 export async function resetSignData(client, botAddress) {
     nextSignData = {
       chainId: await client.getChainId(),
-      ...(await client.getSequence(botAddress)),
+      accountNumber: parseInt(args[2]),
+      sequence: parseInt(args[3]),
     };
     console.log(infoColor(`Sign data set to: ${JSON.stringify(nextSignData)}`))
 }
