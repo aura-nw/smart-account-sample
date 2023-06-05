@@ -22,9 +22,9 @@ pub struct Validate {
 
 The state machine will call `validate` right before a tx is about going to mempool. And `after_execute` will be called by the `authentication message` requested to include in the tx, which will be final and executed after all other messages have finished executing.
 
-- In `validate`, the SCA is provided with details of the tx. It can do some basic checks here that not requiring a state updation.
+- In `validate`, the SCA is provided with details of the tx. It can do some basic checks here that not requiring a state updation. And determine if the transaction is allowed to enter the mempool?
 
-- In `after_execute`, The SCA is provided with detailed information about the tx and can access the results of the tx execution. It can perform checking logic, updating account state, etc. And finally determine if the transaction is successful or not
+- In `after_execute`, The SCA is provided with detailed information about the tx and can access the results of the tx execution. It can perform checking logic, updating account state, etc. And finally determine if the transaction is successful or not?
 
 ## Demo
 
@@ -114,7 +114,7 @@ aurad tx smartaccount create-account \
 ```
 export ACCOUNT_ADDR=<SMART_CONTRACT_ADDR>
 
-aurad tx bank send $(aurad keys show $SIGNER -a) &ACCOUNT_ADDR 10000000uaura \
+aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
     --from $SIGNER \
     --fees 200uaura \
     --chain-id $CHAIN_ID
@@ -153,20 +153,22 @@ change .env file
 
 **Send token from smart-account success**
 ```
+export ACCOUNT_NUMBER=10
+export ACCOUNT_SEQUENCE=0
 export TO_ADDRESS=<ANY_ADDRESS>
 export AMOUNT=5000
 
-node index.js $TO_ADDRESS $AMOUNT 
+node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
 ```
 
 </br>
 
 **Reach spend-limit, transaction fail**
 ```
-export TO_ADDRESS=<ANY_ADDRESS>
+export ACCOUNT_SEQUENCE=1
 export AMOUNT=5001
 
-node index.js $TO_ADDRESS $AMOUNT 
+node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
 ```
 
 ## License
