@@ -1,0 +1,40 @@
+{
+  "name": "aurand-bot",
+  "version": "0.1.0",
+  "description": "Aurand Bot",
+  "main": "index.js",
+  "author": "Narutobacoshiba",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.29.5",
+    "@cosmjs/crypto": "^0.29.5",
+    "@cosmjs/encoding": "^0.29.5",
+    "@cosmjs/math": "^0.29.5",
+    "@cosmjs/proto-signing": "^0.29.5",
+    "@cosmjs/stargate": "^0.29.5",
+    "@cosmjs/utils": "^0.29.5",
+    "@tendermint/amino-js": "^0.6.2",
+    "abort-controller": "^3.0.0",
+    "chalk": "^5.0.1",
+    "cosmjs-types": "^0.5.1",
+    "cosmwasm": "^1.1.1",
+    "dotenv": "^16.0.2",
+    "js-amino": "^1.0.0",
+    "ky-universal": "^0.11.0",
+    "node-fetch": "^3.2.10",
+    "put-after": "^2.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@jest/globals": "^29.4.2",
+    "@types/jest": "^29.4.0",
+    "babel-jest": "^29.4.2",
+    "ts-jest": "^29.0.3"
+  }
+}
