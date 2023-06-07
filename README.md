@@ -20,9 +20,9 @@ pub struct Validate {
 }
 ```
 
-The state machine will call `validate` right before a tx is about going to mempool. And `after_execute` will be called by the `authentication message` requested to include in the tx, which will be final and executed after all other messages have finished executing.
+The state machine will call `validate` right before a tx is about going to mempool. And `after_execute` will be called by the `authentication message` which is requested to include in the tx, this message will be final and executed after all other messages have finished executing.
 
-- In `validate`, the SCA is provided with details of the tx. It can do some basic checks here that not requiring a state updation. And determine if the transaction is allowed to enter the mempool?
+- In `validate`, the SCA is provided with details of the tx. It can do some basic checks here without requiring a state update. And determine if the transaction is allowed to enter the mempool?
 
 - In `after_execute`, The SCA is provided with detailed information about the tx and can access the results of the tx execution. It can perform checking logic, updating account state, etc. And finally determine if the transaction is successful or not?
 
@@ -32,7 +32,7 @@ This repository contains two SCAs for demo purpose. Note, they are not considere
 
 | Contract                                               | Description                                     |
 | ------------------------------------------------------ | ----------------------------------------------- |
-| [`account-base`](./contracts/base/)                    | base account with required function             |
+| [`account-base`](./contracts/base/)                    | base account with required methods             |
 | [`account-spend-limit`](./contracts/spend-limit/)      | account with spend limit checking               |
 
 ### I. Build Project
@@ -112,17 +112,12 @@ aurad tx smartaccount create-account \
 
 **Send fund to account**
 ```
-export ACCOUNT_ADDR=<SMART_CONTRACT_ADDR>
+exporZLt ACCOUNT_ADDR=<SMART_CONTRACT_ADDR>
 
 aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
     --from $SIGNER \
     --fees 200uaura \
     --chain-id $CHAIN_ID
-
-aurad tx bank send $(aurad keys show $SIGNER -a) aura1zg3rwaqyg933zxe9v5rcrdv755n28s7a3ypemz 1uaura \
-    --from $SIGNER \
-    --fees 200uaura \
-    --chain-id $CHAIN_ID \
 ```
 
 </br>
@@ -176,5 +171,5 @@ node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
 TBD
 
 [1]: https://cosmwasm.com/
-[2]: https://github.com/aura-nw/smart-account-sample/packages/smart-account/src/lib.rs#L24-L35
+[2]: https://github.com/aura-nw/smart-account-sample/packages/src/lib.rs#L24-L35
 [3]: https://aura-network.notion.site/Smart-Account-e69e51d6449b46dcb7c157a325dfb44f

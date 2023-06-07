@@ -6,14 +6,14 @@ use cosmwasm_schema::cw_serde;
 pub struct MsgData {
     pub type_url: String, // url type of message
     pub value:    String, // value of message
-    // etc
+    // etc.
     //  MsgData {
     //      type_url: "/cosmos.bank.v1beta1.MsgSend",
     //      value: "{fromAddress:\"aura172r4c7mng5y6ccfqp5klwyulshx6dh2mmd2r0xnmsgugaa754kws8u96pq\",toAddress:\"aura1y3u4ht0p69gz757myr3l0fttchhw3fj2gpeznd\",amount:[{denom:\"uaura\",amount:\"200\"}]}"
     //  }
 }
 
-/// Any contract must implement these below execute and query function in order to
+/// Any contract must implement these below execute and query methods in order to
 /// qualify as an smart account.
 
 
