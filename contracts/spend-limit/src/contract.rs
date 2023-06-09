@@ -13,7 +13,7 @@ use crate::state::{
 use smart_account::{AfterExecute, Validate, MsgData};
 
 // version info for migration info
-const CONTRACT_NAME: &str = "crates.io:iaccount";
+const CONTRACT_NAME: &str = "crates.io:spend-limit";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 const SECOND_PER_HOUR: u64 = 3600;
