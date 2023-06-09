@@ -1,6 +1,6 @@
 # smart-account-sample
 
-a [smart account][3] solution for [CosmWasm][1]-enabled chains
+a [smart account][4] solution for [CosmWasm][1]-enabled chains
 
 ## How does this work
 
@@ -20,6 +20,16 @@ pub struct Validate {
 }
 ```
 
+Optional [sudo method][3] `recover` that activate the smart account recovery function  
+```rust
+// sudo method
+pub struct Recover {
+    pub caller: String,
+    pub pub_key: Binary,
+    pub credentials: Binary,
+}
+```
+
 The state machine will call `validate` right before a tx is about going to mempool. And `after_execute` will be called by the `authentication message` which is requested to include in the tx, this message will be final and executed after all other messages have finished executing.
 
 - In `validate`, the SCA is provided with details of the tx. It can do some basic checks here without requiring a state update. And determine if the transaction is allowed to enter the mempool?
@@ -32,7 +42,8 @@ This repository contains two SCAs for demo purpose. Note, they are not considere
 
 | Contract                                               | Description                                     |
 | ------------------------------------------------------ | ----------------------------------------------- |
-| [`account-base`](./contracts/base/)                    | base account with required methods             |
+| [`account-base`](./contracts/base/)                    | base account with required methods              |
+| [`account-recovery`](./contracts/recovery/)            | account with recovery enabled                   |
 | [`account-spend-limit`](./contracts/spend-limit/)      | account with spend limit checking               |
 
 ### I. Build Project
@@ -171,5 +182,6 @@ node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
 TBD
 
 [1]: https://cosmwasm.com/
-[2]: https://github.com/aura-nw/smart-account-sample/packages/src/lib.rs#L24-L35
-[3]: https://aura-network.notion.site/Smart-Account-e69e51d6449b46dcb7c157a325dfb44f
+[2]: https://github.com/aura-nw/smart-account-sample/packages/src/lib.rs#L24-L36
+[3]: https://github.com/aura-nw/smart-account-sample/packages/src/lib.rs#L44-L54
+[4]: https://aura-network.notion.site/Smart-Account-e69e51d6449b46dcb7c157a325dfb44f
