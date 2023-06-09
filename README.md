@@ -264,9 +264,6 @@ aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
 
 change .env file with mnemonic `"era attitude lucky six physical elite melt industry space motion quit shallow under dust present cross heavy wrist sweet total gravity duck twist wine"` then we already to go.
 
-## License
-
-TBD
 
 [1]: https://cosmwasm.com/
 [2]: https://github.com/aura-nw/smart-account-sample/packages/smart-account/src/lib.rs#L24-L36
