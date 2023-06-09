@@ -38,11 +38,11 @@ pub struct Recover {
 }
 ```
 
-The state machine will call the `recover` method when the message is processed in the SmartAccountModule, then update the pubkey account if the recovery check is successful.  
+The state machine will call the `recover` method when the **recover message** is processed in the SmartAccountModule, then update the pubkey of account if the recovery check is successful.  
 
 ## Demo
 
-This repository contains two SCAs for demo purpose. Note, they are not considered ready for production use:
+This repository contains three SCAs for demo purpose. Note, they are not considered ready for production use:
 
 | Contract                                               | Description                                     |
 | ------------------------------------------------------ | ----------------------------------------------- |
@@ -57,7 +57,7 @@ This repository contains two SCAs for demo purpose. Note, they are not considere
 ```
 beaker wasm build
 ```
-This command will generate 2 file `base.wasm` and `spend_limit.wasm` in artifacts folder
+This command will generate 3 file `base.wasm`, `spend_limit.wasm` and `recovery.wasm` in artifacts folder
 
 </br>
 
