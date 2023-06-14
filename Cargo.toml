@@ -20,6 +20,8 @@ cw-ownable      = "0.5.0"
 cw-storage-plus = "1.0.1"
 cw-utils        = "1.0.1"
 schemars        = "0.8.11"
+sha2            = "0.10.0"
+hex             = "0.4.3"
 serde           = { version = "1.0.152", default-features = false, features = ["derive"] }
 thiserror       = "1.0.38"
 serde-json-wasm = "0.5.0"
