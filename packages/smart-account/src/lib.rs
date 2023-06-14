@@ -1,4 +1,5 @@
 use cosmwasm_schema::cw_serde;
+use cosmwasm_std::Binary;
 
 // A data structure representing an account's message 
 // will be passed into the call to the smart-account contract every time tx arrives
@@ -32,4 +33,15 @@ pub struct AfterExecute {
 pub struct Validate {
     //list of messages in transaction 
     pub msgs: Vec<MsgData>
+}
+
+
+//  sudo method that activate the smart account recovery function
+#[cw_serde]
+pub struct Recover {
+    pub caller: String,
+
+    pub pub_key: Binary,
+
+    pub credentials: Binary,
 }
