@@ -76,7 +76,23 @@ This command will generate 3 file `base.wasm`, `spend_limit.wasm` and `recovery.
 
 ```
 git clone https://github.com/aura-nw/aura.git --branch smart-account-v0.2.0
+
 cd aura
+
+// change "whitelist_code_id" genesis state in config.yml file (test only)
+// whitelist_code_id: [
+//  {
+//      "code_id": "1",
+//      "status": true    
+//  },
+//  {
+//      "code_id": "2",
+//      "status": true
+//  }
+//]
+
+make build
+
 ignite chain serve -v
 ```
 
@@ -129,15 +145,15 @@ aurad q smartaccount generate-account \
     $INIT_MSG \
     $PUBKEY 
 
-// output: SPENTLIMIT_CONTRACT_ADDR
+// output: SPENDLIMIT_CONTRACT_ADDR
 ```
-change .env file with ADDRESS `"SPENTLIMIT_CONTRACT_ADDR"`
+change .env file with ADDRESS `"SPENDLIMIT_CONTRACT_ADDR"`
 
 </br>
 
 **Send fund to account**
 ```
-export ACCOUNT_ADDR=<SPENTLIMIT_CONTRACT_ADDR>
+export ACCOUNT_ADDR=<SPENDLIMIT_CONTRACT_ADDR>
 
 aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
     --from $SIGNER \
