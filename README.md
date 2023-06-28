@@ -129,15 +129,15 @@ aurad q smartaccount generate-account \
     $INIT_MSG \
     $PUBKEY 
 
-// output: aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y
+// output: SPENTLIMIT_CONTRACT_ADDR
 ```
-change .env file with ADDRESS `"aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y"`
+change .env file with ADDRESS `"SPENTLIMIT_CONTRACT_ADDR"`
 
 </br>
 
 **Send fund to account**
 ```
-export ACCOUNT_ADDR="aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y"
+export ACCOUNT_ADDR=<SPENTLIMIT_CONTRACT_ADDR>
 
 aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
     --from $SIGNER \
