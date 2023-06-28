@@ -188,27 +188,19 @@ node send.js $TO_ADDRESS $AMOUNT
 ```
 
 ## V. Recover Test
-**Instantiate Recovery Account**
+**Create Recovery Account**
+
+The creation process is as above with the parameters
 ```
 export CODE_ID=<CODE_ID_OF_RECOVERY_CONTRACT>
 export INIT_MSG='{"recover_key":"024ab33b4f0808eba493ac4e3ead798c8339e2fd216b20ca110001fd094784c07f"}'
-export PUBKEY="02765f7575402df21c363a6a8331ffe275ac4a93fb9793e20b2640b80590441533"
-export SALT="salt"
-export AMOUNT="0uaura"
+export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
+export OWNER=$(aurad keys show Cantho -a)
 
-aurad tx smartaccount create-account \
-    $CODE_ID \
-    $INIT_MSG \
-    $PUBKEY \
-    $SALT \
-    --funds $AMOUNT \
-    --from $SIGNER \
-    --chain-id $CHAIN_ID \
-    --gas=auto \
-    --gas-adjustment 1.4  \
-    --gas-prices 0.025uaura \
-    --broadcast-mode=block
+// output: RERCOVERY_CONTRACT_ADDR
 ```
+change .env file with ADDRESS `"RERCOVERY_CONTRACT_ADDR"`
+
 
 - Generate `recovery key`
     ```Javascript
@@ -226,6 +218,18 @@ aurad tx smartaccount create-account \
 
 </br>
 
+**Create and send fund to Signer**
+```
+aurad keys add Signer
+
+aurad tx bank send $(aurad keys show Cantho -a) $(aurad keys show Signer -a) 10000000uaura \
+    --from Cantho \
+    --fees 200uaura \
+    --chain-id $CHAIN_ID
+```
+
+</br>
+
 **Recover Account Pubkey**
 ```
 export ACCOUNT_ADDR=<RECOVERY_CONTRACT_ADDRR>
@@ -233,7 +237,7 @@ export NEW_PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A/2t0ru/iZ4
 export CREDENTIALS="eyJzaWduYXR1cmUiOls4LDI0NywxOTksMTM4LDIzOCwxOTQsMTI5LDI1NCwyNTEsMTMxLDIzNywyNDEsMzMsODcsMTAzLDQyLDEzOCwyMjcsMjM3LDEyMyw5MiwyMjYsNjMsMTc0LDIwMSw2OCwyMSwzMiw5OSwxMzEsMjM1LDIzMSwyOCwxNzAsMjAzLDE4MCwxMTEsMiwyMjAsMTI2LDE0NCwxNzQsMTYxLDkyLDI1LDIwMiw2MiwxODEsMjUyLDE3OCwxNjMsNDAsMTc3LDIxMCwxNzYsNSwxNDUsMjAwLDU0LDE5MiwxMDgsMyw3Nyw2MV19"
 
 aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
-    --from $SIGNER \
+    --from Signer \
     --chain-id $CHAIN_ID \
     --gas=auto \
     --gas-adjustment 1.4  \
