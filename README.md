@@ -82,6 +82,18 @@ ignite chain serve -v
 
 </br>
 
+**Setup test env**
+```
+cd ./test
+
+// change 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' in .npmrc file using github access token with read package privilege
+
+npm install
+```
+change .env file with MNEMONIC `"deputy cousin control dentist cost rich mention stomach rabbit amazing glove gain lend sign bronze mushroom task wedding captain add script wrestle repair camp"`
+
+</br>
+
 ### III. Create a Smart-Account
 
 </br>
@@ -104,33 +116,28 @@ aurad tx wasm store \
 
 </br>
 
-**Create account**
+**Generate predictable account address**
 ```
 export CODE_ID=1
 export INIT_MSG='{}'
-export PUBKEY="02765f7575402df21c363a6a8331ffe275ac4a93fb9793e20b2640b80590441533"
-export SALT="salt"
-export AMOUNT="0uaura"
+export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
+export OWNER=$(aurad keys show $SIGNER -a)
 
-aurad tx smartaccount create-account \
+aurad q smartaccount generate-account \
     $CODE_ID \
+    $OWNER \
     $INIT_MSG \
-    $PUBKEY \
-    $SALT \
-    --funds $AMOUNT \
-    --from $SIGNER \
-    --chain-id $CHAIN_ID \
-    --gas=auto \
-    --gas-adjustment 1.4  \
-    --gas-prices 0.025uaura \
-    --broadcast-mode=block
+    $PUBKEY 
+
+// output: aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y
 ```
+change .env file with ADDRESS `"aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y"`
 
 </br>
 
 **Send fund to account**
 ```
-exporZLt ACCOUNT_ADDR=<SMART_CONTRACT_ADDR>
+export ACCOUNT_ADDR="aura1xs9t97clypty48k9pzanttyl5egrpsjdh58ks2zye95det320uss5p4j8y"
 
 aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
     --from $SIGNER \
@@ -140,11 +147,18 @@ aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
 
 </br>
 
+**Activate smart account**
+```
+node activate.js $OWNER $CODE_ID $PUBKEY $INIT_MSG
+```
+
+</br>
+
 **Set spend-limit**
 ```
 aurad tx wasm execute $ACCOUNT_ADDR\
     '{"set_spend_limit":{"denom":"uaura","amount":"10000"}}' \
-    --from $SIGNER\
+    --from $SIGNER \
     --gas-prices 0.025uaura \
     --chain-id $CHAIN_ID \
     --gas=auto \
@@ -155,33 +169,22 @@ aurad tx wasm execute $ACCOUNT_ADDR\
 
 ### IV. Test
 
-**Setup test env**
-```
-cd ./test
-npm install
-```
-change .env file
-
-</br>
-
 **Send token from smart-account success**
 ```
-export ACCOUNT_NUMBER=10
-export ACCOUNT_SEQUENCE=0
 export TO_ADDRESS=<ANY_ADDRESS>
+// denom is uaura
 export AMOUNT=5000
 
-node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
+node send.js $TO_ADDRESS $AMOUNT
 ```
 
 </br>
 
 **Reach spend-limit, transaction fail**
 ```
-export ACCOUNT_SEQUENCE=1
 export AMOUNT=5001
 
-node index.js $TO_ADDRESS $AMOUNT $ACCOUNT_NUMBER $ACCOUNT_SEQUENCE
+node send.js $TO_ADDRESS $AMOUNT
 ```
 
 ## V. Recover Test
@@ -225,9 +228,9 @@ aurad tx smartaccount create-account \
 
 **Recover Account Pubkey**
 ```
-export $ACCOUNT_ADDR=<RECOVERY_CONTRACT_ADDRR>
-export $NEW_PUBKEY=03fdadd2bbbf899e07a225f40e44ee332f6b0b698c7979a237a96e337a5af88bd3
-export $CREDENTIALS="eyJzaWduYXR1cmUiOls4LDI0NywxOTksMTM4LDIzOCwxOTQsMTI5LDI1NCwyNTEsMTMxLDIzNywyNDEsMzMsODcsMTAzLDQyLDEzOCwyMjcsMjM3LDEyMyw5MiwyMjYsNjMsMTc0LDIwMSw2OCwyMSwzMiw5OSwxMzEsMjM1LDIzMSwyOCwxNzAsMjAzLDE4MCwxMTEsMiwyMjAsMTI2LDE0NCwxNzQsMTYxLDkyLDI1LDIwMiw2MiwxODEsMjUyLDE3OCwxNjMsNDAsMTc3LDIxMCwxNzYsNSwxNDUsMjAwLDU0LDE5MiwxMDgsMyw3Nyw2MV19"
+export ACCOUNT_ADDR=<RECOVERY_CONTRACT_ADDRR>
+export NEW_PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A/2t0ru/iZ4HoiX0DkTuMy9rC2mMeXmiN6luM3pa+IvT"}'
+export CREDENTIALS="eyJzaWduYXR1cmUiOls4LDI0NywxOTksMTM4LDIzOCwxOTQsMTI5LDI1NCwyNTEsMTMxLDIzNywyNDEsMzMsODcsMTAzLDQyLDEzOCwyMjcsMjM3LDEyMyw5MiwyMjYsNjMsMTc0LDIwMSw2OCwyMSwzMiw5OSwxMzEsMjM1LDIzMSwyOCwxNzAsMjAzLDE4MCwxMTEsMiwyMjAsMTI2LDE0NCwxNzQsMTYxLDkyLDI1LDIwMiw2MiwxODEsMjUyLDE3OCwxNjMsNDAsMTc3LDIxMCwxNzYsNSwxNDUsMjAwLDU0LDE5MiwxMDgsMyw3Nyw2MV19"
 
 aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
     --from $SIGNER \
@@ -241,6 +244,7 @@ aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
 - Generate `credentials`:
     ```Javascript
     import {Secp256k1, sha256, EnglishMnemonic, Bip39, Slip10, Slip10Curve, stringToPath} from "@cosmjs/crypto"
+    import { fromBase64 } from "@cosmjs/encoding"
 
     const recover_mnemonic = "fat history among correct tribe face armed rough language wonder era ribbon puppy car subject cube provide video math address simple skate swap oval"
     const hdPath = stringToPath("m/44'/118'/0'/0/0")
@@ -250,8 +254,8 @@ aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
     let { pubkey } = await Secp256k1.makeKeypair(privkey)
     pubkey = Secp256k1.compressPubkey(pubkey)
 
-    let new_pubkey = "03fdadd2bbbf899e07a225f40e44ee332f6b0b698c7979a237a96e337a5af88bd3"
-    const hashedPubkey = sha256(Uint8Array.from(Buffer.from(new_pubkey, 'hex')))
+    let new_pubkey = "A/2t0ru/iZ4HoiX0DkTuMy9rC2mMeXmiN6luM3pa+IvT"
+    const hashedPubkey = sha256(fromBase64(new_pubkey))
     const signaturePubkey = await Secp256k1.createSignature(hashedPubkey, privkey)
     const signaturePubkeyBytes = [...signaturePubkey.r(32), ...signaturePubkey.s(32)]
 
@@ -262,7 +266,7 @@ aurad tx smartaccount recover $ACCOUNT_ADDR $NEW_PUBKEY $CREDENTIALS \
 
 </br>
 
-change .env file with mnemonic `"era attitude lucky six physical elite melt industry space motion quit shallow under dust present cross heavy wrist sweet total gravity duck twist wine"` then we already to go.
+change .env file with MNEMONIC `"era attitude lucky six physical elite melt industry space motion quit shallow under dust present cross heavy wrist sweet total gravity duck twist wine"` then we already to go.
 
 
 [1]: https://cosmwasm.com/
