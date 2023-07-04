@@ -26,11 +26,13 @@ pub fn instantiate(
     deps: DepsMut,
     _env: Env,
     info: MessageInfo,
-    _msg: InstantiateMsg,
+    msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
-    OWNER.save(deps.storage, &info.sender)?;
+    let owner = deps.api.addr_validate(&msg.owner)?;
+
+    OWNER.save(deps.storage, &owner)?;
 
     Ok(Response::new()
         .add_attribute("method", "instantiate")
