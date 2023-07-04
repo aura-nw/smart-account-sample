@@ -135,13 +135,13 @@ aurad tx wasm store \
 **Generate predictable account address**
 ```
 export CODE_ID=1
-export INIT_MSG='{}'
+export INIT_MSG='{"owner":"'$(aurad keys show $SIGNER -a)'"}'
 export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
-export OWNER=$(aurad keys show $SIGNER -a)
+export SALT="account1"
 
 aurad q smartaccount generate-account \
     $CODE_ID \
-    $OWNER \
+    $SALT \
     $INIT_MSG \
     $PUBKEY 
 
@@ -165,7 +165,7 @@ aurad tx bank send $(aurad keys show $SIGNER -a) $ACCOUNT_ADDR 10000000uaura \
 
 **Activate smart account**
 ```
-node activate.js $OWNER $CODE_ID $PUBKEY $INIT_MSG
+node activate.js $CODE_ID $SALT $PUBKEY $INIT_MSG
 ```
 
 </br>
@@ -211,7 +211,7 @@ The creation process is as above with the parameters
 export CODE_ID=<CODE_ID_OF_RECOVERY_CONTRACT>
 export INIT_MSG='{"recover_key":"024ab33b4f0808eba493ac4e3ead798c8339e2fd216b20ca110001fd094784c07f"}'
 export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
-export OWNER=$(aurad keys show Cantho -a)
+export SALT="account1"
 
 // output: RERCOVERY_CONTRACT_ADDR
 ```
