@@ -56,7 +56,7 @@ async function getSignData(client) {
 }
 
 
-async function main(owner, codeId, pubKey, initMsg) {
+async function main(codeId, salt, pubKey, initMsg) {
   const {client, mneAddr} = await connectSigner()
 
   pubKey = JSON.parse(pubKey)
@@ -65,8 +65,8 @@ async function main(owner, codeId, pubKey, initMsg) {
       typeUrl: "/auranw.aura.smartaccount.MsgActivateAccount",
       value: {
         accountAddress: accountAddr,
-        owner: owner,
         codeId: codeId,
+        salt: toUtf8(salt),
         pubKey: {
           typeUrl: pubKey["@type"],
           value:   Uint8Array.from(
@@ -98,5 +98,5 @@ async function main(owner, codeId, pubKey, initMsg) {
 }
 
 const args = process.argv.slice(2)
-assert(args.length == 4, "Usage: node activate.js <owner> <code_id> <pub_key> <init_msg>")
+assert(args.length == 4, "Usage: node activate.js <code_id> <salt> <pub_key> <init_msg>")
 await main(args[0], args[1], args[2], args[3])
