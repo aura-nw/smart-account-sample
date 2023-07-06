@@ -1,5 +1,5 @@
 use cosmwasm_schema::cw_serde;
-use cosmwasm_std::{Uint128, Addr, Timestamp};
+use cosmwasm_std::{Uint128, Addr, Timestamp, Coin};
 use cw_storage_plus::{Map,Item};
 
 #[cw_serde]
@@ -10,5 +10,7 @@ pub struct Limit {
 }
 
 pub const LIMITS: Map<String, Limit> = Map::new("limits");
+
+pub const BALANCES: Item<Vec<Coin>> = Item::new("balances");
 
 pub const OWNER: Item<Addr> = Item::new("owner");

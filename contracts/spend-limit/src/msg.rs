@@ -1,6 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Uint128, Coin};
-use smart_account::{AfterExecute, Validate};
+use smart_account::{AfterExecute, PreExecute};
 
 /// Message type for `instantiate` entry_point
 #[cw_serde]
@@ -16,6 +16,10 @@ pub enum ExecuteMsg {
         denom: String, // denom string etc. "uaura"
         amount: Uint128 // amount string etc. "10000"
     },
+
+    // required `PreExecute` method
+    PreExecute(PreExecute),
+
     // required `AfterExecute` method
     AfterExecute(AfterExecute),
 }
@@ -37,11 +41,5 @@ pub struct MsgSend {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    // required `Validate` method
-    #[returns(bool)]
-    Validate(Validate)
 }
 
-// We define a custom struct for each query response
-// #[cw_serde]
-// pub struct YourQueryResponse {}
