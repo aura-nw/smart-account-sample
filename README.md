@@ -106,7 +106,12 @@ cd ./test
 
 npm install
 ```
-change .env file with MNEMONIC `"deputy cousin control dentist cost rich mention stomach rabbit amazing glove gain lend sign bronze mushroom task wedding captain add script wrestle repair camp"`
+
+Generate a new mnemonic. For example:
+```
+MNEMONIC `"deputy cousin control dentist cost rich mention stomach rabbit amazing glove gain lend sign bronze mushroom task wedding captain add script wrestle repair camp"`
+```
+change .env file with that mnemonic
 
 </br>
 
@@ -136,7 +141,7 @@ aurad tx wasm store \
 ```
 export CODE_ID=1
 export INIT_MSG='{"owner":"'$(aurad keys show $SIGNER -a)'"}'
-export PUBKEY=$(aurad keys show $SIGNER -p)
+export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
 export SALT="account1"
 
 aurad q smartaccount generate-account \
