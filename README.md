@@ -58,7 +58,7 @@ This repository contains three SCAs for demo purpose. Note, they are not conside
 docker run --rm -v "$(pwd)":/code \
   --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-  cosmwasm/rust-optimizer:0.12.11
+  cosmwasm/rust-optimizer:0.13.0
 ```
 This command will generate 3 file `base.wasm`, `spend_limit.wasm` and `recovery.wasm` in artifacts folder
 
@@ -136,7 +136,7 @@ aurad tx wasm store \
 ```
 export CODE_ID=1
 export INIT_MSG='{"owner":"'$(aurad keys show $SIGNER -a)'"}'
-export PUBKEY='{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AnZfdXVALfIcNjpqgzH/4nWsSpP7l5PiCyZAuAWQRBUz"}'
+export PUBKEY=$(aurad keys show $SIGNER -p)
 export SALT="account1"
 
 aurad q smartaccount generate-account \
