@@ -1,13 +1,13 @@
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
-use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, StdResult, to_binary, from_binary};
+use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult, from_binary};
 use cw2::set_contract_version;
 use sha2::{Digest, Sha256};
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, SudoMsg, InstantiateMsg, MigrateMsg, QueryMsg, Credentials};
+use crate::msg::{ExecuteMsg, SudoMsg, InstantiateMsg, QueryMsg, Credentials};
 use crate::state::RECOVER_KEY;
-use smart_account::{AfterExecute, Validate, Recover, MsgData};
+use smart_account::{AfterExecute, PreExecute, Recover, MsgData};
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:recovery";
@@ -33,12 +33,6 @@ pub fn instantiate(
         .add_attribute("owner", info.sender))
 }
 
-#[cfg_attr(not(feature = "library"), entry_point)]
-pub fn migrate(_deps: DepsMut, _env: Env, msg: MigrateMsg) -> Result<Response, ContractError> {
-    match msg {
-    }
-}
-
 /// Handling contract execution
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn execute(
@@ -49,7 +43,10 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::AfterExecute(AfterExecute{ msgs })
-        => execute_after_execute(deps,env,info,msgs)
+        => execute_after_execute(deps,env,info,msgs),
+
+        ExecuteMsg::PreExecute(PreExecute{ msgs })
+        => execute_pre_execute(deps,env,info,msgs)
     }
 }
 
@@ -68,27 +65,32 @@ fn execute_after_execute(
     
     // verify, check, upadte ... logic here
 
-    Ok(Response::new().add_attribute("action", "execute_after_execute"))
+    Ok(Response::new().add_attribute("action", "after_execute"))
+}
+
+fn execute_pre_execute(
+    _deps: DepsMut,
+    env: Env,
+    info: MessageInfo,
+    _msgs: Vec<MsgData>,
+) -> Result<Response, ContractError> {
+
+    // only smart account can execute this function
+    // must implement this check to make sure, no one other than itself can execute smart account logic
+    if info.sender != env.contract.address {
+        return Err(ContractError::Unauthorized {});
+    }
+    
+    // verify, check, upadte ... logic here
+
+    Ok(Response::new().add_attribute("action", "pre_execute"))
 }
 
 /// Handling contract query
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(_deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
-        QueryMsg::Validate(Validate{msgs})
-        => to_binary(&query_validate(deps,env,msgs)?),
     }
-}
-
-fn query_validate(
-    _deps: Deps,
-    _env: Env,
-    _msgs: Vec<MsgData>
-) -> StdResult<bool> {
-
-    // basic check logic here
-
-    Ok(true)
 }
 
 #[entry_point]
@@ -126,9 +128,3 @@ pub fn sha256(msg: &[u8]) -> Vec<u8> {
     hasher.finalize().to_vec()
 }
 
-/// Handling submessage reply.
-/// For more info on submessage and reply, see https://github.com/CosmWasm/cosmwasm/blob/main/SEMANTICS.md#submessages
-#[cfg_attr(not(feature = "library"), entry_point)]
-pub fn reply(_deps: DepsMut, _env: Env, _msg: Reply) -> Result<Response, ContractError> {
-    todo!()
-}

@@ -1,5 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use smart_account::{AfterExecute, Validate, Recover};
+use smart_account::{AfterExecute, PreExecute, Recover};
 
 /// Message type for `instantiate` entry_point
 #[cw_serde]
@@ -12,6 +12,9 @@ pub struct InstantiateMsg {
 pub enum ExecuteMsg {
     // required `AfterExecute` method
     AfterExecute(AfterExecute),
+
+    // required `PreExecute` method
+    PreExecute(PreExecute),
 }
 
 #[cw_serde]
@@ -28,9 +31,6 @@ pub enum MigrateMsg {}
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    // required `Validate` method
-    #[returns(bool)]
-    Validate(Validate)
 }
 
 #[cw_serde]

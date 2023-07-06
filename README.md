@@ -6,7 +6,7 @@ a [smart account][4] solution for [CosmWasm][1]-enabled chains
 
 Our goal is to make the SCA can be considered as the EOA with some extra features
 
-In order to achieve this, the SCA must implement [execute and query methods][2], `after_execute` and `validate`:
+In order to achieve this, the SCA must implement [execute methods][2], `after_execute` and `pre_execute`:
 
 ```rust
 // execute method
@@ -14,15 +14,15 @@ pub struct AfterExecute {
     pub msgs: Vec<MsgData>
 }
 
-// query method
-pub struct Validate { 
+// execute method
+pub struct PreExecute { 
     pub msgs: Vec<MsgData>
 }
 ```
 
-The state machine will call `validate` right before a tx is about going to mempool. And `after_execute` will be called by the `authentication message` which is requested to include in the tx, this message will be final and executed after all other messages have finished executing.
+The state machine will call `pre_execute` right before a tx is about going to mempool. And `after_execute` will be called by the `validate message` which is requested to include in the tx, this message will be final and executed after all other messages have finished executing.
 
-- In `validate`, the SCA is provided with details of the tx. It can do some basic checks here without requiring a state update. And determine if the transaction is allowed to enter the mempool?
+- In `pre_execute`, the SCA is provided with details of the tx. It can perform checking logic, updating account state, etc. And determine if the transaction is allowed to enter the mempool or not?
 
 - In `after_execute`, The SCA is provided with detailed information about the tx and can access the results of the tx execution. It can perform checking logic, updating account state, etc. And finally determine if the transaction is successful or not?
 

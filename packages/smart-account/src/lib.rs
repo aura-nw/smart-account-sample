@@ -14,29 +14,27 @@ pub struct MsgData {
     //  }
 }
 
-/// Any contract must implement these below execute and query methods in order to
+/// Any contract must implement these below execute methods in order to
 /// qualify as an smart account.
 
 
-// method that allow smart-account verify and check tx after it executed
+// execute method that allow smart-account verify and check tx after it executed
 // Also perform logic to update its state
-// must implement in `execute` entry_point
 #[cw_serde]
 pub struct AfterExecute {
     //list of messages in transaction 
     pub msgs: Vec<MsgData>
 }
 
-// method that allow smart-account perform some basic check on tx before it going to mempool
-// must implement in `query` entry_point
+// execute method that allow smart-account perform some basic check on tx before it going to mempool
 #[cw_serde]
-pub struct Validate {
+pub struct PreExecute {
     //list of messages in transaction 
     pub msgs: Vec<MsgData>
 }
 
 
-//  sudo method that activate the smart account recovery function
+// sudo method that activate the smart account recovery function
 #[cw_serde]
 pub struct Recover {
     pub caller: String,
