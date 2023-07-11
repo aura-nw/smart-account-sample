@@ -69,13 +69,13 @@ This command will generate 3 file `base.wasm`, `spend_limit.wasm` and `recovery.
 </br>
 
 **Prerequisite**
-- Go 1.18
+- Go 1.19
 - Ignite v0.22.1
 
 </br>
 
 ```
-git clone https://github.com/aura-nw/aura.git --branch smart-account-v0.2.0
+git clone https://github.com/aura-nw/aura.git --branch serenity
 
 cd aura
 
