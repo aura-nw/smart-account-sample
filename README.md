@@ -137,6 +137,36 @@ aurad tx wasm store \
 
 </br>
 
+**Submit whitelist proposal to Serenity testnet (optional)**
+
+In case you want to deploy smart account contract to Aura Serenity testnet, please create a proposal file with content:
+```
+{
+    "title": "SmartAccount Param Change",
+    "description": "Update whitelist code_id",
+    "changes": [
+      {
+        "subspace": "smartaccount",
+        "key": "WhitelistCodeID",
+        "value": [
+            {
+                "code_id": "<your-code-id>",
+                "status": true
+            }
+        ]
+      }
+    ],
+    "deposit": "1000000uaura"
+ }
+```
+and run bellow command to submit it:
+
+```
+aurad tx gov submit-proposal param-change <your-proposal-file> --from <your-key> --chain-id serenity-testnet-001 --fees 300uaura --yes
+```
+
+After that, please ping our admins so that we can vote for it.
+
 **Generate predictable account address**
 ```
 export CODE_ID=1
