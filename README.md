@@ -48,7 +48,7 @@ Address control refers to the address at which the Msg contained by the transact
 
 We are currently testing this feature.
 
-The reference implementation can be found at [access-control contract](https://github.com/CosmoSushi/Sushi-Role/tree/access-control).
+The reference implementation can be found at [access-control contract](https://github.com/CosmoSushi/Sushi-Role/tree/access-control/contracts/access-control).
 
 ## Demo
 
