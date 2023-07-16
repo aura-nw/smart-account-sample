@@ -14,7 +14,20 @@ The business that pays for the user's gas can control who the user's smart accou
 
 ## How does this work
 
+We used AuraNetwork's SmartAccount and feegrant for our implementation.
 
+### Gassless Onbording　Flow
+
+<img width="751" alt="image" src="https://github.com/CosmoSushi/Sushi-Role/assets/20056309/c471dc0c-3b46-4573-9740-f1b0a992ee11">
+
+1.Service Provider deploys the contract it wants users to use. (In this case, we have prepared a CW721 contract that anyone can mint.)
+2.Through the UI, the user gives the Service Provider the address of the Smart Account he/she is about to open.
+3.The Serivice Provider uses the freegant module to Approve the available gas costs for the user's account.
+4.The user activates a smart account with the public key of user’s EOA account.
+5.the user can create a smart account for free, as they consume the cost of gas that is Approved by feegrant.
+6＆７ After opening a smart account, transactions can still be executed for free as long as the Service Provider has set up a feegrant Approve for that smart account.In this HackWasm Berlin, the NFT was issued from a smart account.
+
+###
 
 Our goal is to make the SCA can be considered as the EOA with some extra features
 
