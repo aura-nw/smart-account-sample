@@ -1,8 +1,20 @@
-# smart-account-sample
+# Sushi Role
 
-a [smart account][4] solution for [CosmWasm][1]-enabled chains
+Smart Account from user onboarding to its management
+
+# What is being achieved.
+
+The SmartAccount module and corresponding CosmWasm contract provided by Aura Network, as well as the feegrant module, allow users to easily access projects on the Aura Network for free.
+The business that pays for the user's gas can control who the user's smart account is used for.
+
+- Users can open a smart account for free.
+- Users can continue to use their free smart accounts for a variety of projects.
+- In the event that a user's seed phrase is leaked, a new public key can be provided to protect the assets on the smart account.
+- The business that pays for the user's gas can limit the functions that the user's smart account can perform.
 
 ## How does this work
+
+
 
 Our goal is to make the SCA can be considered as the EOA with some extra features
 
