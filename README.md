@@ -57,3 +57,7 @@ We demonstrate "Feegrant" and "Minting NFT with SmartAccount" in this HackWasm.
 The details of the procedure are published in Notion.
 
 https://www.notion.so/Feegrant-sample-083c39ac89c2442881da58585228d5d6
+
+We also show the details of how CW721 contract deploy to testnet below.
+
+https://cosmosjapan.notion.site/Deploying-CW721-with-Aura-Network-serenity-testnet-001-002806ad60f04321a2379f43c78eb4db?pvs=4
