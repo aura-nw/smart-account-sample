@@ -1,5 +1,8 @@
 # Sushi Role
 
+![名称未設定のデザイン (2)](https://github.com/CosmoSushi/Sushi-Role/assets/20056309/2c315631-6c55-406c-ae83-a3b3c90af2fb)
+
+
 Smart Account from user onboarding to its management
 
 # What is being achieved.
