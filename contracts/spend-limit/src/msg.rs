@@ -16,12 +16,15 @@ pub enum ExecuteMsg {
         denom: String, // denom string etc. "uaura"
         amount: Uint128 // amount string etc. "10000"
     },
+}
+
+#[cw_serde]
+pub enum SudoMsg {
+    // required `AfterExecute` method
+    AfterExecute(AfterExecute),
 
     // required `PreExecute` method
     PreExecute(PreExecute),
-
-    // required `AfterExecute` method
-    AfterExecute(AfterExecute),
 }
 
 /// Message type for `migrate` entry_point

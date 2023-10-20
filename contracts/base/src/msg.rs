@@ -7,7 +7,7 @@ pub struct InstantiateMsg {}
 
 /// Message type for `execute` entry_point
 #[cw_serde]
-pub enum ExecuteMsg {
+pub enum SudoMsg {
     // required `AfterExecute` method
     AfterExecute(AfterExecute),
 

@@ -1,12 +1,12 @@
 use cosmwasm_schema::cw_serde;
-use cosmwasm_std::Binary;
+use cosmwasm_std::{Coin, Binary};
 
 // A data structure representing an account's message 
 // will be passed into the call to the smart-account contract every time tx arrives
 #[cw_serde]
-pub struct MsgData {
+pub struct Any {
     pub type_url: String, // url type of message
-    pub value:    String, // value of message
+    pub value:    Binary, // value of message
     // etc.
     //  MsgData {
     //      type_url: "/cosmos.bank.v1beta1.MsgSend",
@@ -14,7 +14,16 @@ pub struct MsgData {
     //  }
 }
 
-/// Any contract must implement these below execute methods in order to
+// fee information
+#[cw_serde]
+pub struct CallInfo {
+    pub fee: Vec<Coin>,
+    pub gas: u64,
+    pub fee_payer: String,
+    pub fee_granter: String,
+}
+
+/// Any contract must implement these below sudo methods in order to
 /// qualify as an smart account.
 
 
@@ -23,23 +32,32 @@ pub struct MsgData {
 #[cw_serde]
 pub struct AfterExecute {
     //list of messages in transaction 
-    pub msgs: Vec<MsgData>
+    pub msgs: Vec<Any>,
+    // fee information of transaction
+    pub call_info: CallInfo,
+    // Is tx executed throught authz msg
+    pub is_authz: bool
 }
 
 // execute method that allow smart-account perform some basic check on tx before it going to mempool
 #[cw_serde]
 pub struct PreExecute {
     //list of messages in transaction 
-    pub msgs: Vec<MsgData>
+    pub msgs: Vec<Any>,
+    // fee information of transaction
+    pub call_info: CallInfo,
+    // Is tx executed throught authz msg
+    pub is_authz: bool
 }
 
 
 // sudo method that activate the smart account recovery function
 #[cw_serde]
 pub struct Recover {
+    // signer of tx
     pub caller: String,
-
+    // new public key for smartaccount
     pub pub_key: Binary,
-
+    // authorization
     pub credentials: Binary,
 }

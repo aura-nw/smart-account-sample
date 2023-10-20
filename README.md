@@ -6,17 +6,27 @@ a [smart account][4] solution for [CosmWasm][1]-enabled chains
 
 Our goal is to make the SCA can be considered as the EOA with some extra features
 
-In order to achieve this, the SCA must implement [execute methods][2], `after_execute` and `pre_execute`:
+In order to achieve this, the SCA must implement [sudo methods][2], `after_execute` and `pre_execute`:
 
 ```rust
-// execute method
+// sudo method
 pub struct AfterExecute {
-    pub msgs: Vec<MsgData>
+    //list of messages in transaction 
+    pub msgs: Vec<Any>,
+    // fee information of transaction
+    pub call_info: CallInfo,
+    // Is tx executed throught authz msg
+    pub is_authz: bool
 }
 
-// execute method
+// sudo method
 pub struct PreExecute { 
-    pub msgs: Vec<MsgData>
+    //list of messages in transaction 
+    pub msgs: Vec<Any>,
+    // fee information of transaction
+    pub call_info: CallInfo,
+    // Is tx executed throught authz msg
+    pub is_authz: bool
 }
 ```
 

@@ -1,12 +1,12 @@
 use cosmwasm_schema::write_api;
 
-use recovery::msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
+use recovery::msg::{SudoMsg, InstantiateMsg, MigrateMsg, QueryMsg};
 
 fn main() {
     write_api! {
         instantiate: InstantiateMsg,
         migrate: MigrateMsg,
-        execute: ExecuteMsg,
+        sudo: SudoMsg,
         query: QueryMsg,
     }
 }

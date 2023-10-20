@@ -7,18 +7,15 @@ pub struct InstantiateMsg {
     pub recover_key: String,
 }
 
-/// Message type for `execute` entry_point
 #[cw_serde]
-pub enum ExecuteMsg {
+pub enum SudoMsg {
     // required `AfterExecute` method
     AfterExecute(AfterExecute),
 
     // required `PreExecute` method
     PreExecute(PreExecute),
-}
 
-#[cw_serde]
-pub enum SudoMsg {
+    // optional
     Recover(Recover),
 }
 
