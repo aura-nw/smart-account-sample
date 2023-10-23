@@ -5,8 +5,8 @@ import { SigningStargateClient, GasPrice, calculateFee } from "@cosmjs/stargate"
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx.js"
 import { toUtf8, fromBase64 } from "@cosmjs/encoding"
 import { assert } from "@cosmjs/utils"
-import { SmartAccount } from "@aura-nw/aurajs/main/codegen/smartaccount/account.js"
-import { MsgActivateAccount } from "@aura-nw/aurajs/main/codegen/smartaccount/tx.js"
+import { SmartAccount } from "@aura-nw/aurajs/main/codegen/aura/smartaccount/account.js"
+import { MsgActivateAccount } from "@aura-nw/aurajs/main/codegen/aura/smartaccount/tx.js"
 import { PubKey as CosmosCryptoSecp256k1Pubkey } from "cosmjs-types/cosmos/crypto/secp256k1/keys.js";
 
 dotenv.config()
@@ -60,9 +60,9 @@ async function main(codeId, salt, pubKey, initMsg) {
   const {client, mneAddr} = await connectSigner()
 
   pubKey = JSON.parse(pubKey)
-
+  
   const activateAccountMsg = {
-      typeUrl: "/auranw.aura.smartaccount.MsgActivateAccount",
+      typeUrl: "/aura.smartaccount.v1beta1.MsgActivateAccount",
       value: {
         accountAddress: accountAddr,
         codeId: codeId,
@@ -86,7 +86,7 @@ async function main(codeId, salt, pubKey, initMsg) {
 
   const usedFee = calculateFee(gasWanted, gasPrice)
 
-  client.registry.register("/auranw.aura.smartaccount.MsgActivateAccount", MsgActivateAccount)
+  client.registry.register("/aura.smartaccount.v1beta1.MsgActivateAccount", MsgActivateAccount)
   
   const signed = await client.sign(mneAddr, [activateAccountMsg], usedFee, memo, signData)
 

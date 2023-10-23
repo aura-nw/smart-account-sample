@@ -3,9 +3,8 @@ import { stringToPath } from "@cosmjs/crypto"
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing"
 import { SigningStargateClient, GasPrice, calculateFee } from "@cosmjs/stargate"
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx.js"
-import { toUtf8 } from "@cosmjs/encoding"
 import { assert } from "@cosmjs/utils"
-import { SmartAccount } from "@aura-nw/aurajs/main/codegen/smartaccount/account.js"
+import { SmartAccount } from "@aura-nw/aurajs/main/codegen/aura/smartaccount/account.js"
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx.js";
 
 dotenv.config()
@@ -71,31 +70,6 @@ async function main(toAddress, amount) {
         }
     }
 
-    const validateMsg = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-        value: {
-            sender: accountAddr,
-            contract: accountAddr,
-            msg: toUtf8(JSON.stringify(
-            {after_execute: {
-                msgs: [
-                    {
-                    type_url: "/cosmos.bank.v1beta1.MsgSend",
-                    value: JSON.stringify({
-                        from_address: accountAddr,
-                        to_address: toAddress,
-                        amount: [{denom:denom,amount:amount}] 
-                    })
-                    }
-                ]
-                }
-            })),
-            "funds": []
-        }
-    }
-
-
-
     const memo = "";
     const signData = await getSignData(client)
 
@@ -103,7 +77,7 @@ async function main(toAddress, amount) {
     
     client.registry.register("/cosmwasm.wasm.v1.MsgExecuteContract", MsgExecuteContract)
 
-    const signed = await client.sign(mneAddr, [sendMsg, validateMsg], usedFee, memo, signData)
+    const signed = await client.sign(mneAddr, [sendMsg], usedFee, memo, signData)
 
     const tx = Uint8Array.from(TxRaw.encode(signed).finish())
   
